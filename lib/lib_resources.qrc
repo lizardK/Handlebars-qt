@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>js/handlebars.js</file>
+    </qresource>
+</RCC>
