@@ -5,4 +5,4 @@
 #-------------------------------------------------
 
 include (lib/lib.pri)
-include (tests/tests.pri)
+#include (tests/tests.pri)

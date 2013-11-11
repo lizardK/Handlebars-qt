@@ -13,6 +13,3 @@ LIBS += -Ldist/lib -lHandlebars-qt
 
 SOURCES += $$PWD/src/test_handlebars.cpp
 HEADERS += $$PWD/src/test_handlebars.h
-
-RESOURCES +=
-

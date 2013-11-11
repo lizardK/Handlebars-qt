@@ -17,8 +17,8 @@ public:
 
   bool init();
 
-  bool loadTemplate(const QString & hbrTemplate);
-  bool loadTemplate(const QFile & hbrTemplateFile);
+  bool compile(const QString & hbrTemplate);
+  bool compile(const QFile & hbrTemplateFile);
 
   bool registerHelper(const QString & helper);
   bool registerHelper(const QFile & helperFile);

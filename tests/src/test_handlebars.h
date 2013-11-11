@@ -12,9 +12,13 @@ private Q_SLOTS:
   void testLoadTemplateFromString();
   void testLoadTemplateFromFile();
   void testRenderFromString();
+  void testRegisterPartialFromString();
+  void testRegisterPartialFromFile();
   void testRenderFromStringToFile();
   void testRenderFromJson();
   void testRenderFromJsonToFile();
+  void testRenderWithPartial();
+  void testErrorLoadTemplateFromEmptyString();
 
   void cleanupTestCase();
 };

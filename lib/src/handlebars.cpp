@@ -35,7 +35,7 @@ bool Handlebars::init()
   return true;
 }
 
-bool Handlebars::loadTemplate(const QString &hbrTemplate)
+bool Handlebars::compile(const QString &hbrTemplate)
 {
   m_errorString = "";
   if(hbrTemplate.isEmpty())
@@ -44,7 +44,8 @@ bool Handlebars::loadTemplate(const QString &hbrTemplate)
       return false;
     }
 
-  QJSValue ret = m_JsEngine->evaluate(QString("var template = Handlebars.compile('%1');").arg(hbrTemplate));
+  m_JsEngine->globalObject().setProperty("tpl",hbrTemplate);
+  QJSValue ret = m_JsEngine->evaluate(QString("var template = Handlebars.compile(tpl);"));
   if(ret.isError())
     {
       m_errorString = QString("Unable to load the template : %1").arg(ret.toString());
@@ -54,7 +55,7 @@ bool Handlebars::loadTemplate(const QString &hbrTemplate)
   return true;
 }
 
-bool Handlebars::loadTemplate(const QFile &hbrTemplateFile)
+bool Handlebars::compile(const QFile &hbrTemplateFile)
 {
   m_errorString = "";
   QFile fHbrTpl (QFileInfo(hbrTemplateFile).absoluteFilePath());
@@ -73,7 +74,7 @@ bool Handlebars::loadTemplate(const QFile &hbrTemplateFile)
       return false;
     }
 
-  return this->loadTemplate(hbrTpl);
+  return this->compile(hbrTpl);
 }
 
 bool Handlebars::registerHelper(const QString &helper)
@@ -131,7 +132,7 @@ bool Handlebars::registerPartial(const QString &name, const QString &partial)
       return false;
     }
 
-  QJSValue ret = m_JsEngine->evaluate(QString("Handlebars.registerPartial(%1,%2);").arg(name).arg(partial));
+  QJSValue ret = m_JsEngine->evaluate(QString("Handlebars.registerPartial('%1','%2');").arg(name).arg(partial));
   if(ret.isError())
     {
       m_errorString = QString("Unable to register the partial %1 : %2").arg(name).arg(ret.toString());
@@ -170,6 +171,7 @@ QString Handlebars::render(const QJsonDocument &context, const QString &file)
   QString ctxData = doc.toJson(QJsonDocument::Compact);
 
   QJSValue ret = m_JsEngine->evaluate(QString("template(%1);").arg(ctxData));
+
   if(ret.isError())
     {
       m_errorString = QString("Unable to execute render : %1").arg(ret.toString());
